@@ -1,7 +1,73 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cool Feature Showcase</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f4f4f4;
+      color: #333;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    .container {
+      text-align: center;
+    }
+
+    h1 {
+      color: #4285f4;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    p {
+      font-size: 18px;
+      line-height: 1.6;
+      color: #777;
+    }
+
+    .feature {
+      background-color: #fff;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      margin-top: 20px;
+      overflow: hidden;
+    }
+
+    .feature iframe {
+      width: 100%;
+      height: 480px; /* Adjust the height as needed */
+      border-radius: 8px;
+      margin-bottom: 10px;
+      transition: transform 0.3s ease-in-out;
+    }
+  </style>
+</head>
 <body>
-<h1>Hello World</h1>
-<p>I'm hosted with GitHub Pages.</p>
+  <div class="container">
+    <h1>Hello World</h1>
+    <p>I'm hosted with GitHub Pages.</p>
+
+    <div class="feature">
+      <iframe src="https://gifer.com/embed/XwI7" width="480" height="480" frameBorder="0" allowFullScreen></iframe>
+      <h2>Your Cool Feature</h2>
+      <p>This is a brief description of your cool feature. Highlight its benefits and why users will love it!</p>
+    </div>
+  </div>
+
+  <script>
+    // Add JavaScript to change the scale of the iframe based on scroll
+    window.addEventListener('scroll', function() {
+      var scrollSpeed = window.scrollY / 500; // Adjust the divisor for the desired scroll speed
+      document.querySelector('.feature iframe').style.transform = 'scale(' + (1 + scrollSpeed) + ')';
+    });
+  </script>
 </body>
 </html>
