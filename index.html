@@ -42,7 +42,7 @@
       overflow: hidden;
     }
 
-    .feature iframe {
+    .feature video {
       width: 100%;
       height: 480px;
       border-radius: 8px;
@@ -64,21 +64,24 @@
 </head>
 <body>
   <div class="container">
-    <h1>Welcome to the 90's Feature Showcase for Pcniados</h1>
+    <h1>Welcome to Pcniado's site!</h1>
     <p>Surfing the web like it's 1999!</p>
 
     <div class="feature">
-      <iframe src="https://gifer.com/embed/XwI7" width="480" height="480" frameBorder="0" allowFullScreen></iframe>
+      <video controls>
+        <source src="https://i.gifer.com/XwI7.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
       <h2>Virtual Reality Experience</h2>
       <p>Step into the future with our cutting-edge virtual reality feature. It's like totally rad!</p>
     </div>
   </div>
 
   <script>
-    // Add JavaScript to change the scale of the iframe based on scroll
+    // Add JavaScript to change the scale of the video based on scroll
     window.addEventListener('scroll', function() {
       var scrollSpeed = window.scrollY / 500; // Adjust the divisor for the desired scroll speed
-      document.querySelector('.feature iframe').style.transform = 'scale(' + (1 + scrollSpeed) + ')';
+      document.querySelector('.feature video').style.transform = 'scale(' + (1 + scrollSpeed) + ')';
     });
   </script>
 </body>
