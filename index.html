@@ -1,88 +1,44 @@
+<!-- index.html -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Welcome to Pcniado's site!</title>
-  <style>
-    body {
-      font-family: 'Comic Sans MS', 'Arial', sans-serif;
-      background-color: #ffff00; /* Yellow background for that 90's look */
-      color: #ff00ff; /* Pink text for maximum contrast */
-      margin: 0;
-      padding: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-    }
-
-    .container {
-      text-align: center;
-    }
-
-    h1 {
-      color: #0000ff; /* Blue heading text */
-      text-shadow: 4px 4px 6px #00ff00; /* Green text shadow for that retro effect */
-    }
-
-    p {
-      font-size: 18px;
-      line-height: 1.6;
-      color: #00ffff; /* Cyan paragraph text */
-    }
-
-    .feature {
-      background-color: #ff0000; /* Red background for features */
-      border: 10px solid #000; /* Black border for that classic look */
-      border-radius: 20px;
-      padding: 20px;
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-      margin-top: 20px;
-      overflow: hidden;
-    }
-
-    .feature video {
-      width: 100%;
-      height: 480px;
-      border-radius: 8px;
-      margin-bottom: 10px;
-      transition: transform 0.3s ease-in-out;
-    }
-
-    .feature h2 {
-      color: #ffcc00; /* Yellow feature title */
-      font-size: 24px;
-    }
-
-    .feature p {
-      font-size: 16px;
-      line-height: 1.4;
-      color: #ff9900; /* Orange feature description */
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Website</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="container">
-    <h1>Welcome to Pcniado's site!</h1>
-    <p>Surfing the web like it's 1999!</p>
+    <nav>
+        <ul>
+            <li><a href="tab1.html">idk</a></li>
+            <li><a href="tab2.html">game</a></li>
+            <!-- Add more tabs as needed -->
+        </ul>
+    </nav>
+    <main id="content"></main>
 
-    <div class="feature">
-      <video controls>
-        <source src="https://i.gifer.com/XwI7.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-      </video>
-      <h2>Virtual Reality Experience</h2>
-      <p>Step into the future with our cutting-edge virtual reality feature. It's like totally rad!</p>
-    </div>
-  </div>
-
-  <script>
-    // Add JavaScript to change the scale of the video based on scroll
-    window.addEventListener('scroll', function() {
-      var scrollSpeed = window.scrollY / 500; // Adjust the divisor for the desired scroll speed
-      document.querySelector('.feature video').style.transform = 'scale(' + (1 + scrollSpeed) + ')';
-    });
-  </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const navLinks = document.querySelectorAll('nav a');
+            const contentContainer = document.getElementById('content');
+          
+            navLinks.forEach(link => {
+                link.addEventListener('click', function (event) {
+                    event.preventDefault();
+                    loadTabContent(link.href);
+                });
+            });
+          
+            function loadTabContent(url) {
+                fetch(url)
+                    .then(response => response.text())
+                    .then(html => {
+                        contentContainer.innerHTML = html;
+                    })
+                    .catch(error => console.error('Error loading content:', error));
+            }
+        });
+    </script>
 </body>
 </html>
