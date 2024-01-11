@@ -1,44 +1,149 @@
-<!-- index.html -->
-
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Website</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>19:39</title>
+    <style>
+        /* Set background to black */
+        body {
+            background-color: black;
+        }
+    
+        /* Set the clock to be white and use a wider, minimalistic font */
+        .clock {
+            color: white;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size: 20em;
+            font-weight: bold;
+            letter-spacing: -0.15em;
+            text-transform: uppercase;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            line-height: 0.7;
+            text-rendering: optimizeLegibility; /* Add anti-aliasing */
+        }
+    
+        /* Define rainbow animation */
+        .rainbow {
+            animation: rainbow 5s infinite;
+        }
+    
+        /* Keyframes for rainbow animation */
+        @keyframes rainbow {
+            0% { color: red; }
+            14% { color: orange; }
+            28% { color: yellow; }
+            42% { color: green; }
+            57% { color: blue; }
+            71% { color: indigo; }
+            85% { color: violet; }
+            100% { color: red; }
+        }
+    
+        /* Position the 'made by Pcniado' text in the bottom left corner */
+        .made-by-pcniado {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            color: white;
+            font-size: 18px;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        }
+    </style>
+    
 </head>
 <body>
-    <nav>
-        <ul>
-            <li><a href="tab1.html">idk</a></li>
-            <li><a href="tab2.html">game</a></li>
-            <!-- Add more tabs as needed -->
-        </ul>
-    </nav>
-    <main id="content"></main>
+    <div class="clock">
+        <div>
+            <span class="hours">19</span>
+        </div>
+        <div>
+            <span class="minutes">39</span>
+        </div>
+    </div>
+
+    <!-- Empty div to hold the YouTube player -->
+    <div id="player"></div>
+
+    <!-- 'made by Pcniado' text with a link to your YouTube channel -->
+    <div class="made-by-pcniado">
+        Made by <a href="https://www.youtube.com/@Pcniado" target="_blank" style="color: white; font-weight: bold; text-decoration: none;">Pcniado</a>
+    </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const navLinks = document.querySelectorAll('nav a');
-            const contentContainer = document.getElementById('content');
-          
-            navLinks.forEach(link => {
-                link.addEventListener('click', function (event) {
-                    event.preventDefault();
-                    loadTabContent(link.href);
-                });
-            });
-          
-            function loadTabContent(url) {
-                fetch(url)
-                    .then(response => response.text())
-                    .then(html => {
-                        contentContainer.innerHTML = html;
-                    })
-                    .catch(error => console.error('Error loading content:', error));
+        // Define global variables for the audio players
+        let chillAudio;
+        let technoAudio;
+
+        // Function to play the Chill music
+        function playChillMusic() {
+            if (!chillAudio) {
+                chillAudio = new Audio('https://dl.sndup.net/cdbb/chill.mp3');
+                chillAudio.loop = true;
+                chillAudio.volume = 0.08; // Set volume to 8%
+                chillAudio.play()
+                    .catch(error => {
+                        console.log('Failed to play Chill music:', error);
+                    });
             }
-        });
+        }
+
+        // Function to play the Techno music
+        function playTechnoMusic() {
+            if (!technoAudio) {
+                technoAudio = new Audio('https://dl.sndup.net/ngj5/techno.mp3');
+                technoAudio.loop = true;
+                technoAudio.volume = 1;
+                technoAudio.play()
+                    .catch(error => {
+                        console.log('Failed to play Techno music:', error);
+                    });
+            }
+        }
+
+        // This function gets the current time and updates the clock display
+        function updateTime() {
+            // Get the current time
+            const now = new Date();
+
+            // Format the time as HH:MM
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+
+            // Update the clock display
+            const hoursDisplay = document.querySelector('.hours');
+            const minutesDisplay = document.querySelector('.minutes');
+            hoursDisplay.textContent = hours;
+            minutesDisplay.textContent = minutes;
+
+            // Play music based on the time
+            if (hours === '19' && minutes === '39') {
+                console.log(`Current time: ${hoursDisplay.textContent}:${minutesDisplay.textContent}`);
+                stopMusic(chillAudio);
+                playTechnoMusic();
+            } else if (hours === '19' && minutes === '40') {
+                console.log(`Current time: ${hoursDisplay.textContent}:${minutesDisplay.textContent}`);
+                stopMusic(technoAudio);
+                playChillMusic();
+            } else {
+                stopMusic(technoAudio);
+                playChillMusic();
+            }
+        }
+
+        // Call the updateTime function every second to keep the clock up-to-date
+        setInterval(updateTime, 1000);
+
+        // Function to stop the music
+        function stopMusic(audio) {
+            if (audio) {
+                audio.pause();
+                audio.currentTime = 0;
+                audio = null;
+            }
+        }
     </script>
 </body>
 </html>
