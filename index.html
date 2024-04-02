@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>19:39</title>
+    <title>I Make Games</title>
     <style>
         /* Set background to black */
         body {
             background-color: black;
         }
     
-        /* Set the clock to be white and use a wider, minimalistic font */
-        .clock {
+        /* Set the text to be white and use a wider, minimalistic font */
+        .text {
             color: white;
             font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
             font-size: 20em;
@@ -55,13 +55,8 @@
     
 </head>
 <body>
-    <div class="clock">
-        <div>
-            <span class="hours">19</span>
-        </div>
-        <div>
-            <span class="minutes">39</span>
-        </div>
+    <div class="text">
+        <a href="https://cdn.discordapp.com/attachments/1196738857085960284/1214998419358355476/Blue_Life.rar?ex=6616d5f4&is=660460f4&hm=cbff36107a6d2cebeeb34c8490fb652bf4b3755c3a1aeefafe51a9bac67972a7&" target="_blank" style="color: white; font-weight: bold; text-decoration: none;">DOWNLOAD</a> <a href="https://cdn.discordapp.com/attachments/1196738857085960284/1214998419358355476/Blue_Life.rar?ex=6616d5f4&is=660460f4&hm=cbff36107a6d2cebeeb34c8490fb652bf4b3755c3a1aeefafe51a9bac67972a7&" target="_blank" style="color: rgb(0, 140, 255); font-weight: bold; text-decoration: none;">BLUE</a> <a href="https://cdn.discordapp.com/attachments/1196738857085960284/1214998419358355476/Blue_Life.rar?ex=6616d5f4&is=660460f4&hm=cbff36107a6d2cebeeb34c8490fb652bf4b3755c3a1aeefafe51a9bac67972a7&" target="_blank" style="color: white; font-weight: bold; text-decoration: none;">LIFE</a>
     </div>
 
     <!-- Empty div to hold the YouTube player -->
@@ -69,69 +64,11 @@
 
     <!-- 'made by Pcniado' text with a link to your YouTube channel -->
     <div class="made-by-pcniado">
-        Made by <a href="https://www.youtube.com/@Pcniado" target="_blank" style="color: white; font-weight: bold; text-decoration: none;">Pcniado</a>
+        Made by <a target="_blank" style="color: white; font-weight: bold; text-decoration: none;">Pcniado</a>
     </div>
 
     <script>
-        // Define global variables for the audio players
-        let chillAudio;
-        let technoAudio;
-
-        // Function to play the Chill music
-        function playChillMusic() {
-            if (!chillAudio) {
-                chillAudio = new Audio('https://dl.sndup.net/cdbb/chill.mp3');
-                chillAudio.loop = true;
-                chillAudio.volume = 0.08; // Set volume to 8%
-                chillAudio.play()
-                    .catch(error => {
-                        console.log('Failed to play Chill music:', error);
-                    });
-            }
-        }
-
-        // Function to play the Techno music
-        function playTechnoMusic() {
-            if (!technoAudio) {
-                technoAudio = new Audio('https://dl.sndup.net/ngj5/techno.mp3');
-                technoAudio.loop = true;
-                technoAudio.volume = 1;
-                technoAudio.play()
-                    .catch(error => {
-                        console.log('Failed to play Techno music:', error);
-                    });
-            }
-        }
-
-        // This function gets the current time and updates the clock display
-        function updateTime() {
-            // Get the current time
-            const now = new Date();
-
-            // Format the time as HH:MM
-            const hours = now.getHours().toString().padStart(2, '0');
-            const minutes = now.getMinutes().toString().padStart(2, '0');
-
-            // Update the clock display
-            const hoursDisplay = document.querySelector('.hours');
-            const minutesDisplay = document.querySelector('.minutes');
-            hoursDisplay.textContent = hours;
-            minutesDisplay.textContent = minutes;
-
-            // Play music based on the time
-            if (hours === '19' && minutes === '39') {
-                console.log(`Current time: ${hoursDisplay.textContent}:${minutesDisplay.textContent}`);
-                stopMusic(chillAudio);
-                playTechnoMusic();
-            } else if (hours === '19' && minutes === '40') {
-                console.log(`Current time: ${hoursDisplay.textContent}:${minutesDisplay.textContent}`);
-                stopMusic(technoAudio);
-                playChillMusic();
-            } else {
-                stopMusic(technoAudio);
-                playChillMusic();
-            }
-        }
+        
 
         // Call the updateTime function every second to keep the clock up-to-date
         setInterval(updateTime, 1000);
