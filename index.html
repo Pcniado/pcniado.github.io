@@ -1,36 +1,31 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>I Make Games</title>
+    <title>niado's website</title>
     <style>
-        /* Set background to black */
         body {
             background-color: black;
+            overflow-y: scroll; 
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
         }
-    
-        /* Set the text to be white and use a wider, minimalistic font */
+
         .text {
             color: white;
-            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
             font-size: 20em;
             font-weight: bold;
             letter-spacing: -0.15em;
             text-transform: uppercase;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
             text-align: center;
             line-height: 0.7;
-            text-rendering: optimizeLegibility; /* Add anti-aliasing */
+            text-rendering: optimizeLegibility; 
+            padding-top: 200px; 
+            margin-bottom: 150px; /* Increase space between text and video */
         }
-    
-        /* Define rainbow animation */
+
         .rainbow {
             animation: rainbow 5s infinite;
         }
-    
-        /* Keyframes for rainbow animation */
+
         @keyframes rainbow {
             0% { color: red; }
             14% { color: orange; }
@@ -41,15 +36,26 @@
             85% { color: violet; }
             100% { color: red; }
         }
-    
-        /* Position the 'made by Pcniado' text in the bottom left corner */
+
         .made-by-pcniado {
             position: fixed;
             bottom: 20px;
             left: 20px;
             color: white;
             font-size: 18px;
-            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        }
+
+        .trailer {
+            text-align: center;
+            margin-top: 100px; /* Increase space between video and text */
+            margin-bottom: 20px; 
+        }
+
+        video {
+            width: 80%; 
+            max-width: 800px; 
+            display: block;
+            margin: 0 auto;
         }
     </style>
     
@@ -59,28 +65,15 @@
         <a href="https://cdn.discordapp.com/attachments/1196738857085960284/1214998419358355476/Blue_Life.rar?ex=6616d5f4&is=660460f4&hm=cbff36107a6d2cebeeb34c8490fb652bf4b3755c3a1aeefafe51a9bac67972a7&" target="_blank" style="color: white; font-weight: bold; text-decoration: none;">DOWNLOAD</a> <a href="https://cdn.discordapp.com/attachments/1196738857085960284/1214998419358355476/Blue_Life.rar?ex=6616d5f4&is=660460f4&hm=cbff36107a6d2cebeeb34c8490fb652bf4b3755c3a1aeefafe51a9bac67972a7&" target="_blank" style="color: rgb(0, 140, 255); font-weight: bold; text-decoration: none;">BLUE</a> <a href="https://cdn.discordapp.com/attachments/1196738857085960284/1214998419358355476/Blue_Life.rar?ex=6616d5f4&is=660460f4&hm=cbff36107a6d2cebeeb34c8490fb652bf4b3755c3a1aeefafe51a9bac67972a7&" target="_blank" style="color: white; font-weight: bold; text-decoration: none;">LIFE</a>
     </div>
 
-    <!-- Empty div to hold the YouTube player -->
-    <div id="player"></div>
+    <div class="trailer">
+        <a target="_blank" style="color: white; font-weight: bold; text-decoration: none;"></a>
+        <video controls>
+            <source src="https://cdn.discordapp.com/attachments/1196738857085960284/1225851192593219657/0001-0420.mp4?ex=6622a1e3&is=66102ce3&hm=72f817902ce31697d65acfd0e864fe4580e1bd0cff7a385d29b0205982c7b7f6&" type="video/mp4">
+        </video>
+    </div>
 
-    <!-- 'made by Pcniado' text with a link to your YouTube channel -->
     <div class="made-by-pcniado">
         Made by <a target="_blank" style="color: white; font-weight: bold; text-decoration: none;">Pcniado</a>
     </div>
-
-    <script>
-        
-
-        // Call the updateTime function every second to keep the clock up-to-date
-        setInterval(updateTime, 1000);
-
-        // Function to stop the music
-        function stopMusic(audio) {
-            if (audio) {
-                audio.pause();
-                audio.currentTime = 0;
-                audio = null;
-            }
-        }
-    </script>
 </body>
 </html>
