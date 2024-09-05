@@ -1,74 +1,82 @@
-<style>
-    /* Set background to black */
-    body {
-        background-color: black;
-    }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-    /* Set the clock to be white and use a wider, minimalistic font */
-    .clock {
-        color: white;
-        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-        font-size: 20em;
-        font-weight: bold;
-        letter-spacing: -0.15em;
-        text-transform: uppercase;
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        text-align: center;
-        line-height: 0.7;
-        text-rendering: optimizeLegibility; /* Add anti-aliasing */
-    }
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #242424;
+    color: #e0e0e0;
+}
 
-    /* Define rainbow animation */
-    .rainbow {
-        animation: rainbow 5s infinite;
-    }
+.container {
+    width: 80%;
+    margin: 0 auto;
+}
 
-    /* Keyframes for rainbow animation */
-    @keyframes rainbow {
-        0% { color: red; }
-        14% { color: orange; }
-        28% { color: yellow; }
-        42% { color: green; }
-        57% { color: blue; }
-        71% { color: indigo; }
-        85% { color: violet; }
-        100% { color: red; }
-    }
+header {
+    background-color: #1e1e1e;
+    color: #ffffff;
+    padding: 10px 0;
+}
 
-    /* Position the 'made by Pcniado' text in the bottom left corner */
-    .made-by-pcniado {
-        position: fixed;
-        bottom: 20px;
-        left: 20px;
-        color: white;
-        font-size: 18px;
-        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    }
+header h1 {
+    text-align: center;
+    font-size: 2.5rem;
+}
 
-    /* Additional CSS code */
-    * {
-        box-sizing: border-box;
-        padding: 0;
-        margin: 0;
-    }
+nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+}
 
-    body {
-        min-height: 100lvh;
-        background-color: #050908;
-    }
+nav ul li {
+    margin: 0 20px;
+}
 
-    .circle {
-        --circle-size: 40px;
-        position: fixed;
-        height: var(--circle-size);
-        width: var(--circle-size);
-        border: 1px solid white;
-        border-radius: 100%;
-        top: calc(var(--circle-size) / 2 * -1);
-        left: calc(var(--circle-size) / 2 * -1);
-        pointer-events: none;
-    }
-</style>
+nav ul li a {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+nav ul li a:hover {
+    color: #bb86fc;
+}
+
+section {
+    padding: 40px 0;
+    background-color: #242424;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 2rem;
+    color: #bb86fc;
+}
+
+.project {
+    margin-bottom: 20px;
+}
+
+a {
+    color: #bb86fc;
+}
+
+a:hover {
+    color: #03dac5;
+}
+
+footer {
+    background-color: #1e1e1e;
+    color: #ffffff;
+    text-align: center;
+    padding: 10px 0;
+}
+
+footer p {
+    margin: 0;
+}
