@@ -309,7 +309,7 @@
         </div>
         
         <div class="action-buttons">
-            <button class="new-puzzle-button" id="newPuzzleButton">New Function (ð)</button>
+            <button class="new-puzzle-button" id="newPuzzleButton">New Function (🔄)</button>
             <button class="clear-button" id="clearButton">Clear</button>
         </div>
         <div class="message-box" id="messageBox">Good Luck!</div>
@@ -357,9 +357,9 @@
             { label: 'sin', op: (expr) => `sin(${expr})`, type: 'unary_wrap', forGeneration: true },
             { label: 'cos', op: (expr) => `cos(${expr})`, type: 'unary_wrap', forGeneration: true },
             { label: 'abs', op: (expr) => `abs(${expr})`, type: 'unary_wrap', forGeneration: true },
-            { label: 'â', op: (expr) => `sqrt(abs(${expr}))`, type: 'unary_wrap', forGeneration: true }, // abs for safety
-            { label: '(...)Â²', op: (expr) => `(${expr})^2`, type: 'unary_wrap', forGeneration: true },
-            { label: '(...)Â³', op: (expr) => `(${expr})^3`, type: 'unary_wrap', forGeneration: true },
+            { label: '√', op: (expr) => `sqrt(abs(${expr}))`, type: 'unary_wrap', forGeneration: true }, // abs for safety
+            { label: '(...)²', op: (expr) => `(${expr})^2`, type: 'unary_wrap', forGeneration: true },
+            { label: '(...)³', op: (expr) => `(${expr})^3`, type: 'unary_wrap', forGeneration: true },
             { label: '-(...)', op: (expr) => `-(${expr})`, type: 'unary_wrap', forGeneration: true },
             // For 1/(...), ensure the expression is not just '0' to avoid immediate 1/0 string.
             // math.js will handle evaluation, but for string representation, this is a bit safer.
