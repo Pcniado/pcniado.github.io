@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Article | Pcniado</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Space+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="background-gradient"></div>
+    <canvas id="particle-canvas"></canvas>
+
+    <nav class="top-nav">
+        <div class="logo">Pcniado</div>
+        <div class="links">
+            <a href="index.html#hero">Home</a>
+            <a href="index.html#projects">Projects</a>
+            <a href="index.html#writeups">Write-ups</a>
+        </div>
+    </nav>
+
+    <main style="padding-top: 60px;">
+        <article class="article-content section">
+            <header class="article-header">
+                <div class="badge" id="article-category">Category</div>
+                <h1 id="article-title">Loading...</h1>
+                <div class="meta">
+                    <span id="article-date">Date</span> • <span id="article-readtime">Read Time</span>
+                </div>
+            </header>
+
+            <div class="article-body glass-panel" id="article-body">
+            </div>
+
+            <div class="article-footer">
+                <a href="index.html#writeups" class="btn secondary">&larr; Back to Write-ups</a>
+            </div>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Pcniado. Built with <span style="color: var(--accent);">♥</span> in Poland.</p>
+    </footer>
+
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
