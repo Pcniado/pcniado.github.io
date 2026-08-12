@@ -676,3 +676,13 @@ footer {
         border: 1px solid var(--border-color);
     }
 }
+
+.btn.soon {
+    color: var(--border-color);
+    cursor: default;
+}
+
+.btn.soon:hover {
+    background: transparent;
+    color: var(--border-color);
+}

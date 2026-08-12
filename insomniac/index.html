@@ -37,8 +37,9 @@
             <div class="hero-content">
                 <div class="badge">/insomniac</div>
                 <h1>Insomniac <br><span class="gradient-text">Modding Tools</span></h1>
-                <p class="bio">Tools I build for modding Insomniac Games PC titles — mesh &amp; animation IO, suit
-                    damage, atmospheres and asset archives. Most of it is open source.</p>
+                <p class="bio">Getting things in and out of Insomniac's PC games — models, animations, suits,
+                    atmospheres, archives. I write the tooling, other people build the mods. Most of it is open
+                    source.</p>
                 <div class="socials">
                     <a href="#tools" class="btn primary">Browse Tools</a>
                     <a href="https://next.nexusmods.com/profile/Pcniado" target="_blank" rel="noopener"
@@ -53,19 +54,10 @@
             <!-- Luna Engine IO Tools -->
             <article class="project-card featured ascii-box tool-card" id="luna">
                 <div class="card-content">
-                    <div class="shot">
-                        <img src="img/luna.svg" data-shot="img/luna.png" alt="Luna Engine IO Tools running in Blender"
-                            loading="lazy" width="800" height="450">
-                    </div>
                     <h3>Luna Engine IO Tools</h3>
-                    <div class="tags">
-                        <span class="tag">Python</span>
-                        <span class="tag">Blender 5.0+</span>
-                        <span class="tag">GPLv3</span>
-                    </div>
-                    <p>A Blender add-on for Luna Engine assets. Imports and exports compiled <code>.model</code> files
-                        and <code>.animclip</code> animations directly inside Blender, so meshes and animations can go
-                        out of the game, get edited, and go back in.</p>
+                    <p>Pulls models and animations out of the game and puts them back, without leaving Blender.
+                        Compiled <code>.model</code> files and <code>.animclip</code> animations both round-trip, with
+                        the rig, shape keys and camera data coming along.</p>
                     <details>
                         <summary>More info</summary>
                         <div class="details-body">
@@ -99,19 +91,10 @@
             <!-- Custom Suit Damage Patcher -->
             <article class="project-card featured ascii-box tool-card" id="suit-damage">
                 <div class="card-content">
-                    <div class="shot">
-                        <img src="img/suitdamage.svg" data-shot="img/suitdamage.png"
-                            alt="Custom Suit Damage Patcher console output" loading="lazy" width="800" height="450">
-                    </div>
                     <h3>Custom Suit Damage Patcher</h3>
-                    <div class="tags">
-                        <span class="tag">Tool</span>
-                        <span class="tag">Spider-Man 2</span>
-                        <span class="tag">Drag &amp; Drop</span>
-                    </div>
-                    <p>A command line tool that adds suit damage support to custom <code>.suit</code> mods. It processes
-                        the suit's meshes and materials automatically, for custom suits where the game's damage effects
-                        are missing, mismapped or invisible in gameplay.</p>
+                    <p>Custom suits usually come out with damage broken — effects missing, mapped to the wrong spot, or
+                        just invisible in gameplay. Drop the <code>.suit</code> on the exe and it rewrites the meshes
+                        and materials so the damage lands where it should.</p>
                     <details>
                         <summary>More info</summary>
                         <div class="details-body">
@@ -129,6 +112,7 @@
                     <div class="actions">
                         <a href="https://www.nexusmods.com/marvelsspiderman2/mods/2196" target="_blank" rel="noopener"
                             class="btn text-btn">Download (Nexus) &rarr;</a>
+                        <span class="btn text-btn soon">Source — coming soon</span>
                     </div>
                 </div>
             </article>
@@ -136,19 +120,10 @@
             <!-- Atmosphere -->
             <article class="project-card featured ascii-box tool-card" id="atmosphere">
                 <div class="card-content">
-                    <div class="shot">
-                        <img src="img/atmosphere.svg" data-shot="img/atmosphere.png" alt="Atmosphere slot listing"
-                            loading="lazy" width="800" height="450">
-                    </div>
                     <h3>Atmosphere Slots</h3>
-                    <div class="tags">
-                        <span class="tag">Core Mod</span>
-                        <span class="tag">Spider-Man 2</span>
-                        <span class="tag">Overstrike</span>
-                    </div>
-                    <p>The groundwork that lets the community add brand new atmospheres to the game. Atmosphere Slots
-                        Core adds extra atmosphere slots while leaving every vanilla weather slot intact — it's the
-                        requirement most custom atmosphere mods on Nexus are built on.</p>
+                    <p>Adds new atmosphere slots on top of the vanilla ones, so a custom atmosphere gets its own slot
+                        instead of replacing a stock weather state. Most of the custom atmosphere mods on Nexus need
+                        this installed to work.</p>
                     <details>
                         <summary>More info</summary>
                         <div class="details-body">
@@ -166,6 +141,7 @@
                             class="btn text-btn">Slots Core &rarr;</a>
                         <a href="https://www.nexusmods.com/marvelsspiderman2/mods/2301" target="_blank" rel="noopener"
                             class="btn text-btn">Slot Converter &rarr;</a>
+                        <span class="btn text-btn soon">Source — coming soon</span>
                     </div>
                 </div>
             </article>
@@ -173,18 +149,10 @@
             <!-- DAT1-GUI -->
             <article class="project-card featured ascii-box tool-card" id="dat1-gui">
                 <div class="card-content">
-                    <div class="shot">
-                        <img src="img/dat1gui.svg" data-shot="img/dat1gui.png" alt="DAT1-GUI toolkit interface"
-                            loading="lazy" width="800" height="450">
-                    </div>
                     <h3>DAT1-GUI</h3>
-                    <div class="tags">
-                        <span class="tag">C#</span>
-                        <span class="tag">.NET 7</span>
-                        <span class="tag">GPLv3</span>
-                    </div>
-                    <p>A standalone toolkit for working with the mod files used in PC ports of Insomniac Games titles —
-                        a heavily extended take on Tkachov's original Modding Tool.</p>
+                    <p>Open up the asset archives behind the PC ports and actually work in them — textures, configs and
+                        audio in one window, with Python scripting for when clicking through gets old. Built on top of
+                        Tkachov's original Modding Tool.</p>
                     <details>
                         <summary>More info</summary>
                         <div class="details-body">
@@ -220,19 +188,9 @@
                         <span class="category">/ data</span>
                     </div>
                     <h3>IGHASHES</h3>
-                    <p>Hash lists for Insomniac Games asset archives.</p>
+                    <p>Asset name hash lists — what turns opaque archive IDs back into readable file names.</p>
                     <a href="https://github.com/Pcniado/IGHASHES" target="_blank" rel="noopener" class="read-more">&gt;
                         ./open</a>
-                </article>
-                <article class="card ascii-box">
-                    <div class="card-header">
-                        <span class="date">[ repo ]</span>
-                        <span class="category">/ research</span>
-                    </div>
-                    <h3>InsomniacEngine</h3>
-                    <p>Assorted notes and bits related to the Insomniac engine.</p>
-                    <a href="https://github.com/Pcniado/InsomniacEngine" target="_blank" rel="noopener"
-                        class="read-more">&gt; ./open</a>
                 </article>
             </div>
             <p class="disclaimer">Not affiliated with or endorsed by Insomniac Games. All tools are unofficial,
@@ -241,16 +199,38 @@
     </main>
 
     <footer>
-        <p>&copy; 2025 Pcniado. Built with <span style="color: var(--accent);">♥</span> in Poland.</p>
+        <p>&copy; 2024–2026 Pcniado. Built with <span style="color: var(--accent);">♥</span> in Poland.</p>
     </footer>
 
     <script src="../script.js"></script>
     <script>
-        // Swap each placeholder for a real screenshot as soon as one exists at data-shot.
-        document.querySelectorAll('.shot img[data-shot]').forEach(img => {
-            const real = new Image();
-            real.onload = () => { img.src = img.dataset.shot; };
-            real.src = img.dataset.shot;
+        // Show a screenshot at the top of a card as soon as one exists in img/.
+        // Drop e.g. img/luna.png (or .jpg / .webp) and it appears — no markup changes needed.
+        const shots = {
+            'luna': 'Luna Engine IO Tools in Blender',
+            'suit-damage': 'Custom Suit Damage Patcher',
+            'atmosphere': 'A custom atmosphere in game',
+            'dat1-gui': 'The DAT1-GUI interface'
+        };
+        const exts = ['png', 'jpg', 'jpeg', 'webp'];
+
+        Object.entries(shots).forEach(([id, alt]) => {
+            const content = document.querySelector('#' + id + ' .card-content');
+            if (!content) return;
+
+            (function tryExt(i) {
+                if (i >= exts.length) return;
+                const probe = new Image();
+                probe.onload = () => {
+                    const frame = document.createElement('div');
+                    frame.className = 'shot';
+                    probe.alt = alt;
+                    frame.appendChild(probe);
+                    content.prepend(frame);
+                };
+                probe.onerror = () => tryExt(i + 1);
+                probe.src = 'img/' + id + '.' + exts[i];
+            })(0);
         });
     </script>
 </body>

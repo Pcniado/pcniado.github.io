@@ -1,15 +1,14 @@
 # Screenshots
 
-The `.svg` files here are terminal-style placeholders.
+Drop an image in this folder and the matching card on `/insomniac` picks it up
+automatically on load — no code changes needed.
 
-To use a real screenshot, drop a PNG in this folder with the matching name:
+| file          | card                       |
+| ------------- | -------------------------- |
+| `luna`        | Luna Engine IO Tools       |
+| `suit-damage` | Custom Suit Damage Patcher |
+| `atmosphere`  | Atmosphere Slots           |
+| `dat1-gui`    | DAT1-GUI                   |
 
-| file             | card                        |
-| ---------------- | --------------------------- |
-| `luna.png`       | Luna Engine IO Tools        |
-| `suitdamage.png` | Custom Suit Damage Patcher  |
-| `atmosphere.png` | Atmosphere Slots            |
-| `dat1gui.png`    | DAT1-GUI                    |
-
-The page checks for each PNG at load and swaps it in automatically — no code
-changes needed. Landscape images (roughly 16:9) look best.
+`.png`, `.jpg` and `.webp` all work (checked in that order). Landscape, roughly
+16:9, looks best. Cards without an image simply render without one.
