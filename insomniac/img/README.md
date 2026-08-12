@@ -12,3 +12,5 @@ automatically on load — no code changes needed.
 
 `.png`, `.jpg` and `.webp` all work (checked in that order). Landscape, roughly
 16:9, looks best. Cards without an image simply render without one.
+
+Current images come from the mod pages on Nexus.

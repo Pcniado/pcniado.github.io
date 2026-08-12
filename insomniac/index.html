@@ -12,10 +12,10 @@
         content="Tools for modding Insomniac Games PC titles: Luna Engine IO Tools, Custom Suit Damage Patcher, Atmosphere Slots and DAT1-GUI.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://pcniado.github.io/insomniac/">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&family=VT323&display=swap"
-        rel="stylesheet">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/hack-font/3.3.0/web/hack.min.css">
     <link rel="stylesheet" href="../style.css">
 </head>
 
@@ -122,25 +122,29 @@
                 <div class="card-content">
                     <h3>Atmosphere Slots</h3>
                     <p>Adds new atmosphere slots on top of the vanilla ones, so a custom atmosphere gets its own slot
-                        instead of replacing a stock weather state. Most of the custom atmosphere mods on Nexus need
-                        this installed to work.</p>
+                        instead of overwriting a stock weather state. Three pieces: an SDK for building atmospheres, a
+                        core mod everyone installs to run them, and a converter for older mods.</p>
                     <details>
                         <summary>More info</summary>
                         <div class="details-body">
                             <ul>
-                                <li><strong>Atmosphere Slots Core</strong> — required by any mod that adds a new
-                                    atmosphere slot. Vanilla slots stay untouched.</li>
-                                <li><strong>Atmosphere Slot Converter</strong> — experimental, for mod users: converts
-                                    existing atmosphere mods over to the new slots.</li>
+                                <li><strong>Atmosphere Slots SDK</strong> — for mod authors. The kit for making an
+                                    atmosphere that lives in its own slot.</li>
+                                <li><strong>Atmosphere Slots Core</strong> — for everyone. Required by any mod that adds
+                                    a new atmosphere slot; vanilla slots stay untouched.</li>
+                                <li><strong>Atmosphere Slot Converter</strong> — experimental. Moves existing atmosphere
+                                    mods over to the new slots.</li>
                             </ul>
                             <p class="req"><span>Requires</span> Script Support enabled in Overstrike.</p>
                         </div>
                     </details>
                     <div class="actions">
+                        <a href="https://www.nexusmods.com/marvelsspiderman2/mods/2300" target="_blank" rel="noopener"
+                            class="btn text-btn">SDK &rarr;</a>
                         <a href="https://www.nexusmods.com/marvelsspiderman2/mods/2302" target="_blank" rel="noopener"
                             class="btn text-btn">Slots Core &rarr;</a>
                         <a href="https://www.nexusmods.com/marvelsspiderman2/mods/2301" target="_blank" rel="noopener"
-                            class="btn text-btn">Slot Converter &rarr;</a>
+                            class="btn text-btn">Converter &rarr;</a>
                         <span class="btn text-btn soon">Source — coming soon</span>
                     </div>
                 </div>
@@ -207,14 +211,15 @@
         // Show a screenshot at the top of a card as soon as one exists in img/.
         // Drop e.g. img/luna.png (or .jpg / .webp) and it appears — no markup changes needed.
         const shots = {
-            'luna': 'Luna Engine IO Tools in Blender',
-            'suit-damage': 'Custom Suit Damage Patcher',
-            'atmosphere': 'A custom atmosphere in game',
-            'dat1-gui': 'The DAT1-GUI interface'
+            'luna': ['Luna Engine IO Tools in Blender'],
+            'suit-damage': ['Custom Suit Damage Patcher'],
+            'atmosphere': ['Vanilla night versus a custom atmosphere',
+                'Realistic Night, one of my own atmospheres, running on a custom slot'],
+            'dat1-gui': ['The DAT1-GUI start screen']
         };
         const exts = ['png', 'jpg', 'jpeg', 'webp'];
 
-        Object.entries(shots).forEach(([id, alt]) => {
+        Object.entries(shots).forEach(([id, [alt, caption]]) => {
             const content = document.querySelector('#' + id + ' .card-content');
             if (!content) return;
 
@@ -222,10 +227,17 @@
                 if (i >= exts.length) return;
                 const probe = new Image();
                 probe.onload = () => {
-                    const frame = document.createElement('div');
+                    const frame = document.createElement('figure');
                     frame.className = 'shot';
+                    // never upscale past the source resolution
+                    frame.style.maxWidth = probe.naturalWidth + 'px';
                     probe.alt = alt;
                     frame.appendChild(probe);
+                    if (caption) {
+                        const cap = document.createElement('figcaption');
+                        cap.textContent = caption;
+                        frame.appendChild(cap);
+                    }
                     content.prepend(frame);
                 };
                 probe.onerror = () => tryExt(i + 1);

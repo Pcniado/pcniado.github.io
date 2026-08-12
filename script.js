@@ -1,6 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
     const canvas = document.getElementById('particle-canvas');
-    if (canvas) {
+    if (canvas && !reducedMotion) {
         const ctx = canvas.getContext('2d');
 
         let width, height;
@@ -24,7 +26,17 @@ document.addEventListener('DOMContentLoaded', () => {
         window.addEventListener('resize', resizeCanvas);
         resizeCanvas();
 
-        function draw() {
+        // phones don't need 60fps of background texture
+        const frameGap = window.matchMedia('(max-width: 768px)').matches ? 1000 / 24 : 0;
+        let lastFrame = 0;
+
+        function draw(now) {
+            if (frameGap && now - lastFrame < frameGap) {
+                requestAnimationFrame(draw);
+                return;
+            }
+            lastFrame = now || 0;
+
             ctx.fillStyle = '#000000';
             ctx.fillRect(0, 0, width, height);
 
@@ -59,6 +71,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         draw();
+    }
+
+    if (canvas && reducedMotion) {
+        canvas.style.display = 'none';
     }
 
     class AsciiBorderManager {
