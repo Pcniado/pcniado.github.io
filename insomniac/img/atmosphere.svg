@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450" role="img" aria-label="Atmosphere Slots preview">
+  <rect width="800" height="450" fill="#000"/>
+  <rect x="12" y="12" width="776" height="426" fill="none" stroke="#333"/>
+  <g font-family="Hack, monospace" font-size="15" fill="#888">
+    <text x="34" y="52">atmosphere slots core</text>
+    <line x1="34" y1="68" x2="766" y2="68" stroke="#333"/>
+    <text x="34" y="104" fill="#555">vanilla slots ...... intact</text>
+    <text x="34" y="140">[00] day</text>
+    <text x="34" y="168">[01] night</text>
+    <text x="34" y="196">[02] rain</text>
+    <text x="34" y="224" fill="#fff">[03] + custom_slot_a</text>
+    <text x="34" y="252" fill="#fff">[04] + custom_slot_b</text>
+    <text x="34" y="280" fill="#fff">[05] + custom_slot_c</text>
+    <line x1="34" y1="316" x2="766" y2="316" stroke="#333"/>
+    <text x="34" y="352">requires script support in Overstrike</text>
+    <text x="34" y="404" fill="#444">drop a screenshot at insomniac/img/atmosphere.png to replace this</text>
+  </g>
+</svg>

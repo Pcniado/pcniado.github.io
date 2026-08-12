@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insomniac Modding | Pcniado</title>
+    <meta name="description"
+        content="Tools by Pcniado for modding Insomniac Games PC titles: Luna Engine IO Tools, Custom Suit Damage Patcher, Atmosphere Slots and DAT1-GUI.">
+    <meta property="og:title" content="Insomniac Modding | Pcniado">
+    <meta property="og:description"
+        content="Tools for modding Insomniac Games PC titles: Luna Engine IO Tools, Custom Suit Damage Patcher, Atmosphere Slots and DAT1-GUI.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://pcniado.github.io/insomniac/">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&family=VT323&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+    <canvas id="particle-canvas"></canvas>
+
+    <nav class="top-nav">
+        <div class="logo">Pcniado</div>
+        <div class="links">
+            <a href="../index.html#hero">Home</a>
+            <a href="../index.html#projects">Projects</a>
+            <a href="../index.html#writeups">Write-ups</a>
+            <a href="index.html" aria-current="page">Insomniac</a>
+        </div>
+    </nav>
+
+    <main>
+        <section class="hero-section compact">
+            <div class="hero-content">
+                <div class="badge">/insomniac</div>
+                <h1>Insomniac <br><span class="gradient-text">Modding Tools</span></h1>
+                <p class="bio">Tools I build for modding Insomniac Games PC titles — mesh &amp; animation IO, suit
+                    damage, atmospheres and asset archives. Most of it is open source.</p>
+                <div class="socials">
+                    <a href="#tools" class="btn primary">Browse Tools</a>
+                    <a href="https://next.nexusmods.com/profile/Pcniado" target="_blank" rel="noopener"
+                        class="btn secondary">Nexus Profile</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="tools" class="section">
+            <h2 class="section-title">Tools</h2>
+
+            <!-- Luna Engine IO Tools -->
+            <article class="project-card featured ascii-box tool-card" id="luna">
+                <div class="card-content">
+                    <div class="shot">
+                        <img src="img/luna.svg" data-shot="img/luna.png" alt="Luna Engine IO Tools running in Blender"
+                            loading="lazy" width="800" height="450">
+                    </div>
+                    <h3>Luna Engine IO Tools</h3>
+                    <div class="tags">
+                        <span class="tag">Python</span>
+                        <span class="tag">Blender 5.0+</span>
+                        <span class="tag">GPLv3</span>
+                    </div>
+                    <p>A Blender add-on for Luna Engine assets. Imports and exports compiled <code>.model</code> files
+                        and <code>.animclip</code> animations directly inside Blender, so meshes and animations can go
+                        out of the game, get edited, and go back in.</p>
+                    <details>
+                        <summary>More info</summary>
+                        <div class="details-body">
+                            <ul>
+                                <li>Import one or more compiled <code>.model</code> files; export selected model
+                                    hierarchies back to Luna Engine format.</li>
+                                <li>Import <code>.animclip</code> files and apply them to an existing armature or
+                                    camera.</li>
+                                <li>Shape key management for Morph2 deformations.</li>
+                                <li>Ziva2 rig evaluation tools.</li>
+                                <li>Camera animation support alongside skeletal animation.</li>
+                            </ul>
+                            <p class="req"><span>Requires</span> Blender 5.0.0 or newer. Python 3.x ships with Blender —
+                                no external dependencies.</p>
+                            <p class="req"><span>Install</span> download the repo, put the files in a folder named
+                                <code>luna_engine_io_tools</code>, then install it from Blender's Add-ons preferences.
+                            </p>
+                        </div>
+                    </details>
+                    <div class="actions">
+                        <a href="https://www.nexusmods.com/marvelsspiderman2/mods/1925" target="_blank" rel="noopener"
+                            class="btn text-btn">Download (Nexus) &rarr;</a>
+                        <a href="https://github.com/Pcniado/luna_engine_io_tools" target="_blank" rel="noopener"
+                            class="btn text-btn">Source &rarr;</a>
+                        <a href="https://github.com/Pcniado/luna_engine_io_tools#readme" target="_blank" rel="noopener"
+                            class="btn text-btn">Readme &rarr;</a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Custom Suit Damage Patcher -->
+            <article class="project-card featured ascii-box tool-card" id="suit-damage">
+                <div class="card-content">
+                    <div class="shot">
+                        <img src="img/suitdamage.svg" data-shot="img/suitdamage.png"
+                            alt="Custom Suit Damage Patcher console output" loading="lazy" width="800" height="450">
+                    </div>
+                    <h3>Custom Suit Damage Patcher</h3>
+                    <div class="tags">
+                        <span class="tag">Tool</span>
+                        <span class="tag">Spider-Man 2</span>
+                        <span class="tag">Drag &amp; Drop</span>
+                    </div>
+                    <p>A command line tool that adds suit damage support to custom <code>.suit</code> mods. It processes
+                        the suit's meshes and materials automatically, for custom suits where the game's damage effects
+                        are missing, mismapped or invisible in gameplay.</p>
+                    <details>
+                        <summary>More info</summary>
+                        <div class="details-body">
+                            <ul>
+                                <li>Drag and drop a <code>.suit</code>, <code>.modular</code>, or even a
+                                    <code>.zip</code> / <code>.rar</code> / <code>.7z</code> onto
+                                    <code>SuitDamageTool.exe</code>.</li>
+                                <li>The tool walks the meshes and materials and writes the damage mapping for you.</li>
+                                <li>Install the newly generated file with Overstrike.</li>
+                            </ul>
+                            <p class="req"><span>Note</span> the same model work also enables x-ray behaviour on custom
+                                suits.</p>
+                        </div>
+                    </details>
+                    <div class="actions">
+                        <a href="https://www.nexusmods.com/marvelsspiderman2/mods/2196" target="_blank" rel="noopener"
+                            class="btn text-btn">Download (Nexus) &rarr;</a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Atmosphere -->
+            <article class="project-card featured ascii-box tool-card" id="atmosphere">
+                <div class="card-content">
+                    <div class="shot">
+                        <img src="img/atmosphere.svg" data-shot="img/atmosphere.png" alt="Atmosphere slot listing"
+                            loading="lazy" width="800" height="450">
+                    </div>
+                    <h3>Atmosphere Slots</h3>
+                    <div class="tags">
+                        <span class="tag">Core Mod</span>
+                        <span class="tag">Spider-Man 2</span>
+                        <span class="tag">Overstrike</span>
+                    </div>
+                    <p>The groundwork that lets the community add brand new atmospheres to the game. Atmosphere Slots
+                        Core adds extra atmosphere slots while leaving every vanilla weather slot intact — it's the
+                        requirement most custom atmosphere mods on Nexus are built on.</p>
+                    <details>
+                        <summary>More info</summary>
+                        <div class="details-body">
+                            <ul>
+                                <li><strong>Atmosphere Slots Core</strong> — required by any mod that adds a new
+                                    atmosphere slot. Vanilla slots stay untouched.</li>
+                                <li><strong>Atmosphere Slot Converter</strong> — experimental, for mod users: converts
+                                    existing atmosphere mods over to the new slots.</li>
+                            </ul>
+                            <p class="req"><span>Requires</span> Script Support enabled in Overstrike.</p>
+                        </div>
+                    </details>
+                    <div class="actions">
+                        <a href="https://www.nexusmods.com/marvelsspiderman2/mods/2302" target="_blank" rel="noopener"
+                            class="btn text-btn">Slots Core &rarr;</a>
+                        <a href="https://www.nexusmods.com/marvelsspiderman2/mods/2301" target="_blank" rel="noopener"
+                            class="btn text-btn">Slot Converter &rarr;</a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- DAT1-GUI -->
+            <article class="project-card featured ascii-box tool-card" id="dat1-gui">
+                <div class="card-content">
+                    <div class="shot">
+                        <img src="img/dat1gui.svg" data-shot="img/dat1gui.png" alt="DAT1-GUI toolkit interface"
+                            loading="lazy" width="800" height="450">
+                    </div>
+                    <h3>DAT1-GUI</h3>
+                    <div class="tags">
+                        <span class="tag">C#</span>
+                        <span class="tag">.NET 7</span>
+                        <span class="tag">GPLv3</span>
+                    </div>
+                    <p>A standalone toolkit for working with the mod files used in PC ports of Insomniac Games titles —
+                        a heavily extended take on Tkachov's original Modding Tool.</p>
+                    <details>
+                        <summary>More info</summary>
+                        <div class="details-body">
+                            <ul>
+                                <li>Project system so your work is preserved between sessions.</li>
+                                <li>Sandboxed Python scripting.</li>
+                                <li>Texture viewer and config editor.</li>
+                                <li><code>.wem</code> audio naming plus a built-in player (vgmstream).</li>
+                            </ul>
+                            <p class="req"><span>Requires</span> .NET 7.0 Desktop Runtime.</p>
+                            <p class="req"><span>Start</span> grab the newest build from Releases, run
+                                <code>DAT1-GUI.exe</code>, then open a table of contents file from the File menu.</p>
+                        </div>
+                    </details>
+                    <div class="actions">
+                        <a href="https://github.com/Pcniado/DAT1-GUI/releases" target="_blank" rel="noopener"
+                            class="btn text-btn">Download &rarr;</a>
+                        <a href="https://github.com/Pcniado/DAT1-GUI" target="_blank" rel="noopener"
+                            class="btn text-btn">Source &rarr;</a>
+                        <a href="https://github.com/Pcniado/DAT1-GUI/issues" target="_blank" rel="noopener"
+                            class="btn text-btn">Issues &rarr;</a>
+                    </div>
+                </div>
+            </article>
+        </section>
+
+        <section id="more" class="section">
+            <h2 class="section-title">Also</h2>
+            <div class="grid">
+                <article class="card ascii-box">
+                    <div class="card-header">
+                        <span class="date">[ repo ]</span>
+                        <span class="category">/ data</span>
+                    </div>
+                    <h3>IGHASHES</h3>
+                    <p>Hash lists for Insomniac Games asset archives.</p>
+                    <a href="https://github.com/Pcniado/IGHASHES" target="_blank" rel="noopener" class="read-more">&gt;
+                        ./open</a>
+                </article>
+                <article class="card ascii-box">
+                    <div class="card-header">
+                        <span class="date">[ repo ]</span>
+                        <span class="category">/ research</span>
+                    </div>
+                    <h3>InsomniacEngine</h3>
+                    <p>Assorted notes and bits related to the Insomniac engine.</p>
+                    <a href="https://github.com/Pcniado/InsomniacEngine" target="_blank" rel="noopener"
+                        class="read-more">&gt; ./open</a>
+                </article>
+            </div>
+            <p class="disclaimer">Not affiliated with or endorsed by Insomniac Games. All tools are unofficial,
+                community made, and for use with legally owned copies of the games.</p>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Pcniado. Built with <span style="color: var(--accent);">♥</span> in Poland.</p>
+    </footer>
+
+    <script src="../script.js"></script>
+    <script>
+        // Swap each placeholder for a real screenshot as soon as one exists at data-shot.
+        document.querySelectorAll('.shot img[data-shot]').forEach(img => {
+            const real = new Image();
+            real.onload = () => { img.src = img.dataset.shot; };
+            real.src = img.dataset.shot;
+        });
+    </script>
+</body>
+
+</html>
