@@ -1,5 +1,3 @@
-@import url('https://cdnjs.cloudflare.com/ajax/libs/hack-font/3.3.0/web/hack.min.css');
-
 :root {
     --bg-color: #000000;
     --text-color: #ffffff;
@@ -9,15 +7,32 @@
 
     --font-main: 'Hack', monospace;
     --font-code: 'Hack', monospace;
+
+    --nav-h: 60px;
 }
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+a,
+.btn,
+summary,
+[onclick] {
+    cursor: pointer;
+}
+
+.btn.soon {
     cursor: default;
 }
 
+
+html {
+    -webkit-text-size-adjust: 100%;
+    scroll-padding-top: calc(var(--nav-h) + 1rem);
+}
 body {
     background-color: var(--bg-color);
     color: var(--text-color);
@@ -32,11 +47,10 @@ body {
     color: var(--bg-color);
 }
 
-
 main {
     max-width: 1000px;
     margin: 0 auto;
-    padding: 60px 2rem 0 2rem; 
+    padding: var(--nav-h) 2rem 0 2rem;
     position: relative;
     z-index: 1;
 }
@@ -84,166 +98,13 @@ a {
     transition: border-color 0.2s;
 }
 
-.tags {
-    display: flex;
-    gap: 1rem;
-    margin: 1rem 0;
+a:hover {
+    border-bottom-color: var(--text-color);
 }
 
-.tag {
-    font-family: var(--font-code);
-    font-size: 0.8rem;
-    color: var(--bg-color);
-    background: var(--dim-color);
-    padding: 0.2rem 0.5rem;
-}
-
-#particle-canvas {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 0;
-    opacity: 0.3;
-    pointer-events: none;
-}
-
-.grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-}
-
-.card-header {
-    display: flex;
-    justify-content: space-between;
-    border-bottom: 1px solid var(--border-color);
-    padding-bottom: 0.5rem;
-    margin-bottom: 1rem;
-    font-family: var(--font-code);
-    font-size: 0.8rem;
-}
-
-.read-more {
-    display: inline-block;
-    margin-top: 1rem;
-    font-family: var(--font-code);
-    text-transform: uppercase;
-    font-size: 0.8rem;
-}
-
-.read-more::after {
-    content: ' >>';
-}
-
-footer {
-    text-align: center;
-    padding: 4rem 0;
-    border-top: 1px solid var(--border-color);
-    color: var(--dim-color);
-    font-family: var(--font-code);
-    font-size: 0.8rem;
-}
-
-.article-content {
-    padding-top: 8rem;
-}
-
-.glass-panel {
-    background: transparent;
-    border: none;
-    padding: 0;
-    box-shadow: none;
-    backdrop-filter: none;
-}
-
-.article-header h1 {
-    font-size: 3rem;
-}
-
-.article-body pre {
-    background: #111;
-    border: 1px solid var(--border-color);
-    color: var(--text-color);
-    padding: 1rem;
-    overflow-x: auto;
-}
-
-.cursor-blink {
-    display: inline-block;
-    width: 10px;
-    height: 1em;
-    background: var(--text-color);
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    cursor: default;
-}
-
-body {
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    font-family: var(--font-main);
-    font-size: 16px;
-    line-height: 1.4;
-    overflow-x: hidden;
-}
-
-::selection {
-    background: var(--text-color);
-    color: var(--bg-color);
-}
-
-main {
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 60px 2rem 0 2rem;
-    position: relative;
-    z-index: 1;
-}
-
-.section {
-    padding: 6rem 0;
-    border-bottom: 1px dashed var(--dim-color);
-}
-
-.section:last-child {
-    border-bottom: none;
-}
-
-h1,
-h2,
-h3 {
-    font-weight: 400;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    margin-bottom: 1.5rem;
-}
-
-h1 {
-    font-size: 4rem;
-    line-height: 1;
-}
-
-h2.section-title {
-    font-size: 2.5rem;
-    padding-left: 0;
-    margin-bottom: 3rem;
-}
-
-
-
-p {
-    margin-bottom: 1.5rem;
-    color: var(--dim-color);
-}
-
-a {
-    color: var(--text-color);
-    text-decoration: none;
-    border-bottom: 1px solid transparent;
-    transition: border-color 0.2s;
+:focus-visible {
+    outline: 2px solid var(--text-color);
+    outline-offset: 3px;
 }
 
 .tags {
@@ -359,7 +220,7 @@ footer {
     top: 0;
     left: 0;
     width: 100%;
-    height: 60px;
+    height: var(--nav-h);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -375,37 +236,22 @@ footer {
 }
 
 .hero-section {
+    /* pull back main's 60px nav clearance so the hero centres on the viewport,
+       not on the space below the fixed nav */
     min-height: 100vh;
+    margin-top: calc(var(--nav-h) * -1);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
-    padding-top: 60px;
 }
 
 .hero-content {
     max-width: 800px;
 }
 
-@media (max-width: 768px) {
-    h1 {
-        font-size: 3rem;
-    }
 
-    .top-nav {
-        position: relative;
-        border-bottom: 1px solid var(--border-color);
-        background: transparent;
-        backdrop-filter: none;
-        height: auto;
-        padding: 1rem;
-        display: block;
-    }
-
-    .links {
-    }
-}
 
 .btn {
     display: inline-block;
@@ -504,7 +350,7 @@ footer {
 
 .shot {
     border: 1px solid var(--border-color);
-    margin-bottom: 2rem;
+    margin: 0 auto 2rem auto;
     background: #000;
     line-height: 0;
 }
@@ -622,7 +468,7 @@ footer {
 
 @media (max-width: 768px) {
     main {
-        padding: 40px 1rem 0 1rem;
+        padding: var(--nav-h) 1rem 0 1rem;
     }
 
     .section {
@@ -650,11 +496,6 @@ footer {
 
     .tool-card h3 {
         font-size: 1.2rem;
-    }
-
-    .top-nav .links a {
-        padding: 0.25rem 0.75rem 0.25rem 0;
-        font-size: 0.9rem;
     }
 
     .actions {
@@ -685,4 +526,132 @@ footer {
 .btn.soon:hover {
     background: transparent;
     color: var(--border-color);
+}
+
+.shot figcaption {
+    font-family: var(--font-code);
+    font-size: 0.75rem;
+    color: var(--dim-color);
+    line-height: 1.4;
+    padding: 0.6rem 0.8rem;
+    border-top: 1px solid var(--border-color);
+}
+
+
+
+/* ── phones ──────────────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+    :root {
+        --nav-h: 48px;
+    }
+
+    /* taps need to feel like they landed */
+    .btn:active,
+    .top-nav .links a:active,
+    .read-more:active,
+    .tool-card summary:active {
+        background: var(--text-color);
+        color: var(--bg-color);
+    }
+
+    a {
+        -webkit-tap-highlight-color: rgba(255, 255, 255, 0.15);
+    }
+
+    /* one compact row that stays put, instead of wrapping into a stack */
+    .top-nav {
+        padding: 0 max(0.75rem, env(safe-area-inset-right)) 0 max(0.75rem, env(safe-area-inset-left));
+        border-bottom: 1px solid var(--border-color);
+        gap: 0.5rem;
+    }
+
+    .top-nav .logo {
+        font-size: 0.85rem;
+        letter-spacing: 1px;
+        flex-shrink: 0;
+    }
+
+    .top-nav .links {
+        flex-wrap: nowrap;
+        justify-content: flex-end;
+    }
+
+    .top-nav .links a {
+        font-size: 0.72rem;
+        letter-spacing: 0;
+        padding: 0.9rem 0.3rem;
+        white-space: nowrap;
+    }
+
+    /* svh = the viewport with the browser chrome showing, so the buttons
+       never end up underneath Safari's address bar */
+    .hero-section {
+        min-height: 100vh;
+        min-height: 100svh;
+        padding: 1.5rem 0;
+    }
+
+    .hero-section h1 {
+        font-size: 2.1rem;
+        letter-spacing: 1px;
+    }
+
+    .hero-section .bio {
+        font-size: 0.95rem;
+    }
+
+    .socials {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.75rem;
+    }
+
+    .socials .btn {
+        margin: 0;
+    }
+
+    /* comfortable touch targets everywhere */
+    .btn {
+        padding: 0.75rem 1.1rem;
+        font-size: 0.85rem;
+    }
+
+    .read-more {
+        padding: 0.5rem 0;
+    }
+
+    .tool-card summary {
+        padding: 1rem 0;
+    }
+
+    .tool-card p,
+    .card p,
+    .details-body li,
+    .details-body .req {
+        font-size: 0.95rem;
+    }
+
+    .shot figcaption {
+        font-size: 0.7rem;
+    }
+
+    footer {
+        padding: 2.5rem 1rem calc(2.5rem + env(safe-area-inset-bottom)) 1rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #particle-canvas {
+        display: none;
+    }
+
+    .cursor-blink {
+        animation: none;
+    }
+
+    html {
+        scroll-behavior: auto;
+    }
 }
