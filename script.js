@@ -235,24 +235,38 @@ document.addEventListener('DOMContentLoaded', () => {
         if (reducedMotion) return;
 
         el.querySelectorAll(':scope > .linked-field').forEach(old => old.remove());
-
-        const rect = el.getBoundingClientRect();
-        if (!rect.width || !rect.height) return;
+        if (!el.getBoundingClientRect().height) return;
 
         const field = document.createElement('canvas');
         field.className = 'linked-field';
         field.setAttribute('aria-hidden', 'true');
-
-        const dpr = Math.min(window.devicePixelRatio || 1, 2);
-        field.width = Math.round(rect.width * dpr);
-        field.height = Math.round(rect.height * dpr);
         el.appendChild(field);
 
         const ctx = field.getContext('2d');
-        ctx.scale(dpr, dpr);
-        ctx.font = '20px "Hack", monospace';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        let width = 0;
+        let height = 0;
+
+        // The card grows when its screenshot loads, so the bitmap has to be
+        // re-cut to match or the glyphs stretch with it.
+        function syncSize() {
+            const rect = el.getBoundingClientRect();
+            const w = Math.round(rect.width);
+            const h = Math.round(rect.height);
+            if (w === width && h === height) return;
+
+            width = w;
+            height = h;
+            field.width = Math.round(w * dpr);
+            field.height = Math.round(h * dpr);
+
+            // resizing the bitmap resets the context
+            ctx.setTransform(1, 0, 0, 1, 0, 0);
+            ctx.scale(dpr, dpr);
+            ctx.font = '20px "Hack", monospace';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+        }
 
         const DURATION = 1400;
         // clock from the first painted frame: if rendering is held up (a slow
@@ -268,9 +282,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 field.remove();
                 return;
             }
-            ctx.clearRect(0, 0, rect.width, rect.height);
+
+            syncSize();
+            ctx.clearRect(0, 0, width, height);
             // ease out so it lingers a moment before disappearing
-            drawAsciiField(ctx, rect.width, rect.height, 28, now * 0.001, (1 - progress) ** 1.6 * 3);
+            drawAsciiField(ctx, width, height, 28, now * 0.001, (1 - progress) ** 1.6 * 3);
             requestAnimationFrame(step);
         }
 
