@@ -52,7 +52,7 @@
             <h2 class="section-title">Tools</h2>
 
             <!-- Luna Engine IO Tools -->
-            <article class="project-card featured ascii-box tool-card" id="luna">
+            <article class="project-card featured ascii-box tool-card" id="lunaengineio">
                 <div class="card-content">
                     <h3>Luna Engine IO Tools</h3>
                     <p>Pulls models and animations out of the game and puts them back, without leaving Blender.
@@ -89,7 +89,7 @@
             </article>
 
             <!-- Custom Suit Damage Patcher -->
-            <article class="project-card featured ascii-box tool-card" id="suit-damage">
+            <article class="project-card featured ascii-box tool-card" id="suitdamagepatcher">
                 <div class="card-content">
                     <h3>Custom Suit Damage Patcher</h3>
                     <p>Custom suits usually come out with damage broken — effects missing, mapped to the wrong spot, or
@@ -118,7 +118,7 @@
             </article>
 
             <!-- Atmosphere -->
-            <article class="project-card featured ascii-box tool-card" id="atmosphere">
+            <article class="project-card featured ascii-box tool-card" id="atmosphereslots">
                 <div class="card-content">
                     <h3>Atmosphere Slots</h3>
                     <p>Adds new atmosphere slots on top of the vanilla ones, so a custom atmosphere gets its own slot
@@ -151,7 +151,7 @@
             </article>
 
             <!-- DAT1-GUI -->
-            <article class="project-card featured ascii-box tool-card" id="dat1-gui">
+            <article class="project-card featured ascii-box tool-card" id="dat1gui">
                 <div class="card-content">
                     <h3>DAT1-GUI</h3>
                     <p>Open up the asset archives behind the PC ports and actually work in them — textures, configs and
@@ -183,7 +183,7 @@
             </article>
         </section>
 
-        <section id="more" class="section">
+        <section id="also" class="section">
             <h2 class="section-title">Also</h2>
             <div class="grid">
                 <article class="card ascii-box">
@@ -211,11 +211,11 @@
         // Show a screenshot at the top of a card as soon as one exists in img/.
         // Drop e.g. img/luna.png (or .jpg / .webp) and it appears — no markup changes needed.
         const shots = {
-            'luna': ['Luna Engine IO Tools in Blender'],
-            'suit-damage': ['Custom Suit Damage Patcher'],
-            'atmosphere': ['Vanilla night versus a custom atmosphere',
+            'lunaengineio': ['Luna Engine IO Tools in Blender'],
+            'suitdamagepatcher': ['Custom Suit Damage Patcher'],
+            'atmosphereslots': ['Vanilla night versus a custom atmosphere',
                 'Realistic Night, one of my own atmospheres, running on a custom slot'],
-            'dat1-gui': ['The DAT1-GUI start screen']
+            'dat1gui': ['The DAT1-GUI start screen']
         };
         const exts = ['png', 'jpg', 'jpeg', 'webp'];
 
@@ -244,6 +244,20 @@
                 probe.src = 'img/' + id + '.' + exts[i];
             })(0);
         });
+
+        // Inserting a screenshot pushes the page down, which would leave a
+        // visitor who arrived on #someslug looking at the wrong card.
+        let realign;
+        function keepHashInView() {
+            clearTimeout(realign);
+            realign = setTimeout(() => {
+                if (!location.hash) return;
+                const target = document.querySelector(location.hash);
+                if (target) target.scrollIntoView();
+            }, 60);
+        }
+        new MutationObserver(keepHashInView).observe(document.querySelector('#tools'),
+            { childList: true, subtree: true });
     </script>
 </body>
 

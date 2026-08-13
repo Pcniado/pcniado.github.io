@@ -218,13 +218,94 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
+            const hash = this.getAttribute('href');
+            const target = document.querySelector(hash);
+            if (!target) return;
             e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth'
-                });
-            }
+            target.scrollIntoView({ behavior: 'smooth' });
+            // keep the address bar in sync so the section stays linkable
+            history.pushState(null, '', hash);
         });
+    });
+
+    // ── copy-link buttons ────────────────────────────────────────
+    // Every section and card with an id gets a [#] next to its heading that
+    // copies a direct link, e.g. /insomniac#lunaengineio
+
+    const toast = (() => {
+        let el, timer;
+        return message => {
+            if (!el) {
+                el = document.createElement('div');
+                el.className = 'copied-toast';
+                el.setAttribute('role', 'status');
+                el.setAttribute('aria-live', 'polite');
+                document.body.appendChild(el);
+            }
+            el.innerHTML = '';
+            message.split(' ').forEach((word, i) => {
+                // whitespace between the spans keeps the announced text readable
+                // without affecting the column layout
+                if (i) el.appendChild(document.createTextNode(' '));
+                const line = document.createElement('span');
+                line.textContent = word;
+                el.appendChild(line);
+            });
+            const caret = document.createElement('span');
+            caret.className = 'cursor-blink';
+            el.appendChild(caret);
+
+            // restart the animation even if the toast is already showing
+            el.classList.remove('is-visible');
+            void el.offsetWidth;
+            el.classList.add('is-visible');
+
+            clearTimeout(timer);
+            timer = setTimeout(() => el.classList.remove('is-visible'), 1800);
+        };
+    })();
+
+    async function copyText(text) {
+        try {
+            await navigator.clipboard.writeText(text);
+            return true;
+        } catch (err) {
+            // clipboard API needs a secure context; fall back to a scratch textarea
+            const scratch = document.createElement('textarea');
+            scratch.value = text;
+            scratch.setAttribute('readonly', '');
+            scratch.style.position = 'fixed';
+            scratch.style.opacity = '0';
+            document.body.appendChild(scratch);
+            scratch.select();
+            let ok = false;
+            try {
+                ok = document.execCommand('copy');
+            } catch (e) {
+                ok = false;
+            }
+            document.body.removeChild(scratch);
+            return ok;
+        }
+    }
+
+    document.querySelectorAll('main section[id], main article[id]').forEach(target => {
+        const heading = target.querySelector('h2, h3');
+        if (!heading || heading.querySelector('.share-link')) return;
+
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'share-link';
+        button.textContent = '#';
+        button.title = 'Copy link to this section';
+        button.setAttribute('aria-label', `Copy link to ${heading.textContent.trim()}`);
+
+        button.addEventListener('click', async () => {
+            const url = `${location.origin}${location.pathname}#${target.id}`;
+            history.replaceState(null, '', '#' + target.id);
+            toast(await copyText(url) ? 'link copied' : 'copy failed');
+        });
+
+        heading.appendChild(button);
     });
 });
