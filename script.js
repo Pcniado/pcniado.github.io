@@ -225,8 +225,35 @@ document.addEventListener('DOMContentLoaded', () => {
             target.scrollIntoView({ behavior: 'smooth' });
             // keep the address bar in sync so the section stays linkable
             history.pushState(null, '', hash);
+            markLinked();
         });
     });
+
+    // ── highlight whatever the URL points at ─────────────────────
+
+    function markLinked() {
+        document.querySelectorAll('.is-linked').forEach(el => el.classList.remove('is-linked'));
+
+        const raw = location.hash.slice(1);
+        if (!raw) return;
+
+        let id;
+        try {
+            id = decodeURIComponent(raw);
+        } catch (e) {
+            id = raw;
+        }
+
+        const target = document.getElementById(id);
+        if (!target || !target.matches('main section[id], main article[id]')) return;
+
+        // restart the flash if the same card is linked twice in a row
+        void target.offsetWidth;
+        target.classList.add('is-linked');
+    }
+
+    markLinked();
+    window.addEventListener('hashchange', markLinked);
 
     // ── copy-link buttons ────────────────────────────────────────
     // Every section and card with an id gets a [#] next to its heading that
@@ -292,6 +319,7 @@ document.addEventListener('DOMContentLoaded', () => {
         button.addEventListener('click', async () => {
             const url = `${location.origin}${location.pathname}#${target.id}`;
             history.replaceState(null, '', '#' + target.id);
+            markLinked();
             toast(await copyText(url) ? 'link copied' : 'copy failed');
         });
 

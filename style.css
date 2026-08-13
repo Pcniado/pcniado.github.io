@@ -774,3 +774,43 @@ footer {
         margin-top: 2rem;
     }
 }
+
+/* ── the section the URL points at ───────────────────────────── */
+
+.is-linked {
+    animation: linked-flash 1.4s ease-out 1;
+}
+
+@keyframes linked-flash {
+    from {
+        background-color: rgba(255, 255, 255, 0.11);
+    }
+
+    to {
+        background-color: transparent;
+    }
+}
+
+/* on wide screens the card's visible edge is the ascii overlay, not a border */
+.is-linked .ascii-border-overlay {
+    color: var(--text-color);
+}
+
+.is-linked.card,
+.is-linked.project-card {
+    border-color: var(--text-color);
+}
+
+/* and mark its [#] so it's obvious which link you followed */
+.is-linked > h2 > .share-link,
+.is-linked > .card-content > h3 > .share-link {
+    color: var(--bg-color);
+    background: var(--text-color);
+    border-color: var(--text-color);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .is-linked {
+        animation: none;
+    }
+}
