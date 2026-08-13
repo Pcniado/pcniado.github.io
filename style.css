@@ -695,7 +695,7 @@ footer {
 .copied-toast {
     position: fixed;
     left: 50%;
-    bottom: calc(1rem + env(safe-area-inset-bottom));
+    bottom: calc(2rem + env(safe-area-inset-bottom));
     transform: translate(-50%, 0.5rem);
     z-index: 2000;
 
@@ -729,5 +729,48 @@ footer {
     .copied-toast {
         transition: none;
         transform: translate(-50%, 0);
+    }
+}
+
+/* ── wide screens: put the screenshot beside the text ────────── */
+
+@media (min-width: 900px) {
+    .tool-card .card-content {
+        display: grid;
+        grid-template-columns: minmax(0, 42%) minmax(0, 1fr);
+        column-gap: 2.5rem;
+    }
+
+    /* everything except the screenshot stacks in the right-hand column;
+       the figure spans them all (its row span is set in the page script) */
+    .tool-card .card-content > * {
+        grid-column: 2;
+        min-width: 0;
+    }
+
+    .tool-card .shot {
+        grid-column: 1;
+        grid-row: 1 / -1;
+        align-self: start;
+        margin: 0;
+        /* long expanded text would otherwise leave this column empty */
+        position: sticky;
+        top: calc(var(--nav-h) + 1.5rem);
+    }
+
+    .tool-card .actions {
+        gap: 0.25rem 0;
+    }
+
+    .tool-card h3 {
+        margin-top: -0.35rem;
+    }
+
+    .section {
+        padding: 4.5rem 0;
+    }
+
+    .tool-card + .tool-card {
+        margin-top: 2rem;
     }
 }

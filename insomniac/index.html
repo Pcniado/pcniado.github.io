@@ -231,6 +231,9 @@
                     frame.className = 'shot';
                     // never upscale past the source resolution
                     frame.style.maxWidth = probe.naturalWidth + 'px';
+                    // on wide screens the card is a two-column grid and the
+                    // figure has to span however many rows the text needs
+                    frame.style.gridRow = '1 / span ' + (content.children.length + 1);
                     probe.alt = alt;
                     frame.appendChild(probe);
                     if (caption) {
