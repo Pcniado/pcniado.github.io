@@ -242,18 +242,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 el.setAttribute('aria-live', 'polite');
                 document.body.appendChild(el);
             }
-            el.innerHTML = '';
-            message.split(' ').forEach((word, i) => {
-                // whitespace between the spans keeps the announced text readable
-                // without affecting the column layout
-                if (i) el.appendChild(document.createTextNode(' '));
-                const line = document.createElement('span');
-                line.textContent = word;
-                el.appendChild(line);
-            });
-            const caret = document.createElement('span');
-            caret.className = 'cursor-blink';
-            el.appendChild(caret);
+            el.textContent = message;
 
             // restart the animation even if the toast is already showing
             el.classList.remove('is-visible');
