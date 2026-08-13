@@ -1,3 +1,31 @@
+const FIELD_CHARS = ['\u00b7', '+', 'x', '*', '0', '1'];
+
+// The drifting character field used behind the whole page, and again as a
+// one-shot flash on whichever section the URL points at.
+function drawAsciiField(ctx, width, height, charSize, time, alphaScale) {
+    const cols = Math.ceil(width / charSize);
+    const rows = Math.ceil(height / charSize);
+
+    for (let y = 0; y < rows; y++) {
+        for (let x = 0; x < cols; x++) {
+            const dist = Math.sqrt((x - cols / 2) ** 2 + (y - rows / 2) ** 2);
+            const angle = dist * 0.1 - time * 2;
+            const wave = Math.sin(angle) + Math.sin(x * 0.2 + time) + Math.sin(y * 0.2 + time);
+
+            const val = (wave + 3) / 6;
+            let charIndex = Math.floor(val * FIELD_CHARS.length);
+            if (charIndex < 0) charIndex = 0;
+            if (charIndex >= FIELD_CHARS.length) charIndex = FIELD_CHARS.length - 1;
+
+            const brightness = Math.floor(val * 255);
+            const alpha = ((val * 0.5) + 0.1) * alphaScale;
+
+            ctx.fillStyle = `rgba(${brightness}, ${brightness}, ${brightness}, ${alpha})`;
+            ctx.fillText(FIELD_CHARS[charIndex], x * charSize + charSize / 2, y * charSize + charSize / 2);
+        }
+    }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -6,17 +34,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const ctx = canvas.getContext('2d');
 
         let width, height;
-        let cols, rows;
-        const charSize = 20; 
-        const chars = ['·', '+', 'x', '*', '0', '1']; 
+        const charSize = 20;
         const resizeCanvas = () => {
             width = window.innerWidth;
             height = window.innerHeight;
             canvas.width = width;
             canvas.height = height;
-
-            cols = Math.ceil(width / charSize);
-            rows = Math.ceil(height / charSize);
 
             ctx.font = '14px "Hack", monospace';
             ctx.textAlign = 'center';
@@ -40,32 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
             ctx.fillStyle = '#000000';
             ctx.fillRect(0, 0, width, height);
 
-            const time = Date.now() * 0.001;
-
-            for (let y = 0; y < rows; y++) {
-                for (let x = 0; x < cols; x++) {
-                    const dist = Math.sqrt((x - cols / 2) ** 2 + (y - rows / 2) ** 2);
-                    const angle = dist * 0.1 - time * 2;
-                    const wave = Math.sin(angle) + Math.sin(x * 0.2 + time) + Math.sin(y * 0.2 + time);
-
-                    const val = (wave + 3) / 6;
-                    let charIndex = Math.floor(val * chars.length);
-                    if (charIndex < 0) charIndex = 0;
-                    if (charIndex >= chars.length) charIndex = chars.length - 1;
-
-                    const char = chars[charIndex];
-
-                    const brightness = Math.floor(val * 255);
-                    const alpha = (val * 0.5) + 0.1;
-
-                    ctx.fillStyle = `rgba(${brightness}, ${brightness}, ${brightness}, ${alpha})`;
-
-                    const posX = x * charSize + charSize / 2;
-                    const posY = y * charSize + charSize / 2;
-
-                    ctx.fillText(char, posX, posY);
-                }
-            }
+            drawAsciiField(ctx, width, height, charSize, Date.now() * 0.001, 1);
 
             requestAnimationFrame(draw);
         }
@@ -218,13 +216,177 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
+            const hash = this.getAttribute('href');
+            const target = document.querySelector(hash);
+            if (!target) return;
             e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth'
-                });
-            }
+            target.scrollIntoView({ behavior: 'smooth' });
+            // keep the address bar in sync so the section stays linkable
+            history.pushState(null, '', hash);
+            markLinked();
         });
+    });
+
+    // ── highlight whatever the URL points at ─────────────────────
+
+    // A short burst of the same character field, a size up from the page
+    // background, fading to nothing over its run.
+    function flashField(el) {
+        if (reducedMotion) return;
+
+        el.querySelectorAll(':scope > .linked-field').forEach(old => old.remove());
+        if (!el.getBoundingClientRect().height) return;
+
+        const field = document.createElement('canvas');
+        field.className = 'linked-field';
+        field.setAttribute('aria-hidden', 'true');
+        el.appendChild(field);
+
+        const ctx = field.getContext('2d');
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        let width = 0;
+        let height = 0;
+
+        // The card grows when its screenshot loads, so the bitmap has to be
+        // re-cut to match or the glyphs stretch with it.
+        function syncSize() {
+            const rect = el.getBoundingClientRect();
+            const w = Math.round(rect.width);
+            const h = Math.round(rect.height);
+            if (w === width && h === height) return;
+
+            width = w;
+            height = h;
+            field.width = Math.round(w * dpr);
+            field.height = Math.round(h * dpr);
+
+            // resizing the bitmap resets the context
+            ctx.setTransform(1, 0, 0, 1, 0, 0);
+            ctx.scale(dpr, dpr);
+            ctx.font = '20px "Hack", monospace';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+        }
+
+        const DURATION = 1400;
+        // clock from the first painted frame: if rendering is held up (a slow
+        // stylesheet, a background tab) the flash should still play, not be
+        // counted as already finished
+        let started = null;
+
+        function step(now) {
+            if (started === null) started = now;
+
+            const progress = (now - started) / DURATION;
+            if (progress >= 1 || !field.isConnected) {
+                field.remove();
+                return;
+            }
+
+            syncSize();
+            ctx.clearRect(0, 0, width, height);
+            // ease out so it lingers a moment before disappearing
+            drawAsciiField(ctx, width, height, 28, now * 0.001, (1 - progress) ** 1.6 * 3);
+            requestAnimationFrame(step);
+        }
+
+        requestAnimationFrame(step);
+    }
+
+    function markLinked() {
+        document.querySelectorAll('.linked-field').forEach(el => el.remove());
+        document.querySelectorAll('.is-linked').forEach(el => el.classList.remove('is-linked'));
+
+        const raw = location.hash.slice(1);
+        if (!raw) return;
+
+        let id;
+        try {
+            id = decodeURIComponent(raw);
+        } catch (e) {
+            id = raw;
+        }
+
+        const target = document.getElementById(id);
+        if (!target || !target.matches('main section[id], main article[id]')) return;
+
+        // restart the flash if the same card is linked twice in a row
+        void target.offsetWidth;
+        target.classList.add('is-linked');
+        flashField(target);
+    }
+
+    markLinked();
+    window.addEventListener('hashchange', markLinked);
+
+    // ── copy-link buttons ────────────────────────────────────────
+    // Every section and card with an id gets a [#] next to its heading that
+    // copies a direct link, e.g. /insomniac#lunaengineio
+
+    const toast = (() => {
+        let el, timer;
+        return message => {
+            if (!el) {
+                el = document.createElement('div');
+                el.className = 'copied-toast';
+                el.setAttribute('role', 'status');
+                el.setAttribute('aria-live', 'polite');
+                document.body.appendChild(el);
+            }
+            el.textContent = message;
+
+            // restart the animation even if the toast is already showing
+            el.classList.remove('is-visible');
+            void el.offsetWidth;
+            el.classList.add('is-visible');
+
+            clearTimeout(timer);
+            timer = setTimeout(() => el.classList.remove('is-visible'), 1800);
+        };
+    })();
+
+    async function copyText(text) {
+        try {
+            await navigator.clipboard.writeText(text);
+            return true;
+        } catch (err) {
+            // clipboard API needs a secure context; fall back to a scratch textarea
+            const scratch = document.createElement('textarea');
+            scratch.value = text;
+            scratch.setAttribute('readonly', '');
+            scratch.style.position = 'fixed';
+            scratch.style.opacity = '0';
+            document.body.appendChild(scratch);
+            scratch.select();
+            let ok = false;
+            try {
+                ok = document.execCommand('copy');
+            } catch (e) {
+                ok = false;
+            }
+            document.body.removeChild(scratch);
+            return ok;
+        }
+    }
+
+    document.querySelectorAll('main section[id], main article[id]').forEach(target => {
+        const heading = target.querySelector('h2, h3');
+        if (!heading || heading.querySelector('.share-link')) return;
+
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'share-link';
+        button.textContent = '#';
+        button.title = 'Copy link to this section';
+        button.setAttribute('aria-label', `Copy link to ${heading.textContent.trim()}`);
+
+        button.addEventListener('click', async () => {
+            const url = `${location.origin}${location.pathname}#${target.id}`;
+            history.replaceState(null, '', '#' + target.id);
+            markLinked();
+            toast(await copyText(url) ? 'link copied' : 'copy failed');
+        });
+
+        heading.appendChild(button);
     });
 });

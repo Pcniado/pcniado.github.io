@@ -340,10 +340,6 @@ footer {
     margin-bottom: 1.5rem;
 }
 
-.tool-card {
-    scroll-margin-top: 80px;
-}
-
 .tool-card + .tool-card {
     margin-top: 3rem;
 }
@@ -654,4 +650,183 @@ footer {
     html {
         scroll-behavior: auto;
     }
+}
+
+/* ── copy-link buttons and toast ─────────────────────────────── */
+
+.share-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.5em;
+    height: 1.5em;
+    margin-left: 0.6em;
+    padding: 0;
+    vertical-align: middle;
+    font-family: var(--font-code);
+    font-size: 0.55em;
+    line-height: 1;
+    letter-spacing: 0;
+    color: var(--dim-color);
+    background: transparent;
+    border: 1px solid var(--border-color);
+    transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+
+.share-link:hover {
+    color: var(--bg-color);
+    background: var(--text-color);
+    border-color: var(--text-color);
+}
+
+/* the glyph stays small; the touch target does not */
+.share-link {
+    position: relative;
+    /* without this the following paragraph paints over the expanded area */
+    z-index: 1;
+}
+
+.share-link::after {
+    content: '';
+    position: absolute;
+    inset: -14px;
+}
+
+.copied-toast {
+    position: fixed;
+    left: 50%;
+    bottom: calc(2rem + env(safe-area-inset-bottom));
+    transform: translate(-50%, 0.5rem);
+    z-index: 2000;
+
+    padding: 0.55rem 1.1rem;
+    white-space: nowrap;
+
+    background: var(--bg-color);
+    border: 1px solid var(--text-color);
+    color: var(--text-color);
+    font-family: var(--font-code);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    line-height: 1;
+
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.18s ease-out, transform 0.18s ease-out;
+}
+
+.copied-toast::before {
+    content: '> ';
+}
+
+.copied-toast.is-visible {
+    opacity: 1;
+    transform: translate(-50%, 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .copied-toast {
+        transition: none;
+        transform: translate(-50%, 0);
+    }
+}
+
+/* ── wide screens: put the screenshot beside the text ────────── */
+
+@media (min-width: 900px) {
+    .tool-card .card-content {
+        display: grid;
+        grid-template-columns: minmax(0, 42%) minmax(0, 1fr);
+        column-gap: 2.5rem;
+    }
+
+    /* everything except the screenshot stacks in the right-hand column;
+       the figure spans them all (its row span is set in the page script) */
+    .tool-card .card-content > * {
+        grid-column: 2;
+        min-width: 0;
+    }
+
+    .tool-card .shot {
+        grid-column: 1;
+        grid-row: 1 / -1;
+        align-self: start;
+        margin: 0;
+        /* long expanded text would otherwise leave this column empty */
+        position: sticky;
+        top: calc(var(--nav-h) + 1.5rem);
+    }
+
+    .tool-card .actions {
+        gap: 0.25rem 0;
+    }
+
+    .tool-card h3 {
+        margin-top: -0.35rem;
+    }
+
+    .section {
+        padding: 4.5rem 0;
+    }
+
+    .tool-card + .tool-card {
+        margin-top: 2rem;
+    }
+}
+
+/* ── the section the URL points at ───────────────────────────── */
+
+.is-linked:not(.ascii-box) {
+    animation: linked-flash 1.4s ease-out 1;
+}
+
+@keyframes linked-flash {
+    from {
+        background-color: rgba(255, 255, 255, 0.11);
+    }
+
+    to {
+        background-color: transparent;
+    }
+}
+
+/* on wide screens the card's visible edge is the ascii overlay, not a border */
+.is-linked .ascii-border-overlay {
+    color: var(--text-color);
+}
+
+.is-linked.card,
+.is-linked.project-card {
+    border-color: var(--text-color);
+}
+
+/* and mark its [#] so it's obvious which link you followed */
+.is-linked > h2 > .share-link,
+.is-linked > .card-content > h3 > .share-link {
+    color: var(--bg-color);
+    background: var(--text-color);
+    border-color: var(--text-color);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .is-linked {
+        animation: none;
+    }
+}
+
+.linked-field {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* keep card content above the flash */
+.ascii-box > *:not(.linked-field):not(.ascii-border-overlay) {
+    position: relative;
+    z-index: 1;
 }
