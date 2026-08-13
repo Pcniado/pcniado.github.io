@@ -777,7 +777,7 @@ footer {
 
 /* ── the section the URL points at ───────────────────────────── */
 
-.is-linked {
+.is-linked:not(.ascii-box) {
     animation: linked-flash 1.4s ease-out 1;
 }
 
@@ -813,4 +813,20 @@ footer {
     .is-linked {
         animation: none;
     }
+}
+
+.linked-field {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* keep card content above the flash */
+.ascii-box > *:not(.linked-field):not(.ascii-border-overlay) {
+    position: relative;
+    z-index: 1;
 }

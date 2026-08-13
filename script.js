@@ -1,3 +1,31 @@
+const FIELD_CHARS = ['\u00b7', '+', 'x', '*', '0', '1'];
+
+// The drifting character field used behind the whole page, and again as a
+// one-shot flash on whichever section the URL points at.
+function drawAsciiField(ctx, width, height, charSize, time, alphaScale) {
+    const cols = Math.ceil(width / charSize);
+    const rows = Math.ceil(height / charSize);
+
+    for (let y = 0; y < rows; y++) {
+        for (let x = 0; x < cols; x++) {
+            const dist = Math.sqrt((x - cols / 2) ** 2 + (y - rows / 2) ** 2);
+            const angle = dist * 0.1 - time * 2;
+            const wave = Math.sin(angle) + Math.sin(x * 0.2 + time) + Math.sin(y * 0.2 + time);
+
+            const val = (wave + 3) / 6;
+            let charIndex = Math.floor(val * FIELD_CHARS.length);
+            if (charIndex < 0) charIndex = 0;
+            if (charIndex >= FIELD_CHARS.length) charIndex = FIELD_CHARS.length - 1;
+
+            const brightness = Math.floor(val * 255);
+            const alpha = ((val * 0.5) + 0.1) * alphaScale;
+
+            ctx.fillStyle = `rgba(${brightness}, ${brightness}, ${brightness}, ${alpha})`;
+            ctx.fillText(FIELD_CHARS[charIndex], x * charSize + charSize / 2, y * charSize + charSize / 2);
+        }
+    }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -6,17 +34,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const ctx = canvas.getContext('2d');
 
         let width, height;
-        let cols, rows;
-        const charSize = 20; 
-        const chars = ['·', '+', 'x', '*', '0', '1']; 
+        const charSize = 20;
         const resizeCanvas = () => {
             width = window.innerWidth;
             height = window.innerHeight;
             canvas.width = width;
             canvas.height = height;
-
-            cols = Math.ceil(width / charSize);
-            rows = Math.ceil(height / charSize);
 
             ctx.font = '14px "Hack", monospace';
             ctx.textAlign = 'center';
@@ -40,32 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
             ctx.fillStyle = '#000000';
             ctx.fillRect(0, 0, width, height);
 
-            const time = Date.now() * 0.001;
-
-            for (let y = 0; y < rows; y++) {
-                for (let x = 0; x < cols; x++) {
-                    const dist = Math.sqrt((x - cols / 2) ** 2 + (y - rows / 2) ** 2);
-                    const angle = dist * 0.1 - time * 2;
-                    const wave = Math.sin(angle) + Math.sin(x * 0.2 + time) + Math.sin(y * 0.2 + time);
-
-                    const val = (wave + 3) / 6;
-                    let charIndex = Math.floor(val * chars.length);
-                    if (charIndex < 0) charIndex = 0;
-                    if (charIndex >= chars.length) charIndex = chars.length - 1;
-
-                    const char = chars[charIndex];
-
-                    const brightness = Math.floor(val * 255);
-                    const alpha = (val * 0.5) + 0.1;
-
-                    ctx.fillStyle = `rgba(${brightness}, ${brightness}, ${brightness}, ${alpha})`;
-
-                    const posX = x * charSize + charSize / 2;
-                    const posY = y * charSize + charSize / 2;
-
-                    ctx.fillText(char, posX, posY);
-                }
-            }
+            drawAsciiField(ctx, width, height, charSize, Date.now() * 0.001, 1);
 
             requestAnimationFrame(draw);
         }
@@ -231,7 +229,56 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ── highlight whatever the URL points at ─────────────────────
 
+    // A short burst of the same character field, a size up from the page
+    // background, fading to nothing over its run.
+    function flashField(el) {
+        if (reducedMotion) return;
+
+        el.querySelectorAll(':scope > .linked-field').forEach(old => old.remove());
+
+        const rect = el.getBoundingClientRect();
+        if (!rect.width || !rect.height) return;
+
+        const field = document.createElement('canvas');
+        field.className = 'linked-field';
+        field.setAttribute('aria-hidden', 'true');
+
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        field.width = Math.round(rect.width * dpr);
+        field.height = Math.round(rect.height * dpr);
+        el.appendChild(field);
+
+        const ctx = field.getContext('2d');
+        ctx.scale(dpr, dpr);
+        ctx.font = '20px "Hack", monospace';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+
+        const DURATION = 1400;
+        // clock from the first painted frame: if rendering is held up (a slow
+        // stylesheet, a background tab) the flash should still play, not be
+        // counted as already finished
+        let started = null;
+
+        function step(now) {
+            if (started === null) started = now;
+
+            const progress = (now - started) / DURATION;
+            if (progress >= 1 || !field.isConnected) {
+                field.remove();
+                return;
+            }
+            ctx.clearRect(0, 0, rect.width, rect.height);
+            // ease out so it lingers a moment before disappearing
+            drawAsciiField(ctx, rect.width, rect.height, 28, now * 0.001, (1 - progress) ** 1.6 * 3);
+            requestAnimationFrame(step);
+        }
+
+        requestAnimationFrame(step);
+    }
+
     function markLinked() {
+        document.querySelectorAll('.linked-field').forEach(el => el.remove());
         document.querySelectorAll('.is-linked').forEach(el => el.classList.remove('is-linked'));
 
         const raw = location.hash.slice(1);
@@ -250,6 +297,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // restart the flash if the same card is linked twice in a row
         void target.offsetWidth;
         target.classList.add('is-linked');
+        flashField(target);
     }
 
     markLinked();
