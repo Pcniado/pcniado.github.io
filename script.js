@@ -381,7 +381,13 @@ document.addEventListener('DOMContentLoaded', () => {
         button.setAttribute('aria-label', `Copy link to ${heading.textContent.trim()}`);
 
         button.addEventListener('click', async () => {
-            const url = `${location.origin}${location.pathname}#${target.id}`;
+            // Prefer a URL that previews as this section when shared. A #fragment
+            // never reaches a link-preview crawler, so cards that have a stub
+            // page of their own advertise it via data-share-url.
+            const share = target.dataset.shareUrl;
+            const url = share
+                ? new URL(share, location.href).href
+                : `${location.origin}${location.pathname}#${target.id}`;
             history.replaceState(null, '', '#' + target.id);
             markLinked();
             toast(await copyText(url) ? 'link copied' : 'copy failed');
