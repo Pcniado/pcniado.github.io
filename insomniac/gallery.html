@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Archive Gallery | Pcniado</title>
+    <meta name="description" content="Image gallery from the Insomniac playtest archive.">
+    <meta property="og:title" content="Archive Gallery | Pcniado">
+    <meta property="og:description" content="Image gallery from the Insomniac playtest archive.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://pcniado.github.io/insomniac/gallery.html">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/hack-font/3.3.0/web/hack.min.css">
+    <link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+    <canvas id="particle-canvas"></canvas>
+
+    <nav class="top-nav">
+        <div class="logo">Pcniado</div>
+        <div class="links">
+            <a href="../index.html#hero">Home</a>
+            <a href="../index.html#projects">Projects</a>
+            <a href="../index.html#writeups">Write-ups</a>
+            <a href="index.html">Insomniac</a>
+            <a href="gallery.html" aria-current="page">Gallery</a>
+        </div>
+    </nav>
+
+    <main>
+        <section id="archive-gallery" class="section archive-gallery-section">
+            <h2 class="section-title">Archive Gallery</h2>
+
+            <div class="archive-controls" aria-label="Archive gallery filters">
+                <label>
+                    <span>Search</span>
+                    <input id="archive-search" type="search" placeholder="survey, project, filename…" autocomplete="off">
+                </label>
+                <label>
+                    <span>Project</span>
+                    <select id="archive-project">
+                        <option value="">All projects</option>
+                    </select>
+                </label>
+            </div>
+
+            <p id="archive-count" class="archive-count" aria-live="polite"></p>
+            <div id="archive-grid" class="archive-grid"></div>
+            <button id="archive-load-more" class="btn archive-load-more" type="button">Load more</button>
+        </section>
+
+        <div id="archive-lightbox" class="archive-lightbox" hidden role="dialog" aria-modal="true" aria-label="Archive image viewer">
+            <button class="archive-lightbox-close" type="button" aria-label="Close image viewer">×</button>
+            <button class="archive-lightbox-nav archive-lightbox-prev" type="button" aria-label="Previous image">‹</button>
+            <div class="archive-lightbox-panel">
+                <img class="archive-lightbox-image" alt="">
+                <div class="archive-lightbox-caption">
+                    <h3 class="archive-lightbox-title"></h3>
+                    <p class="archive-lightbox-meta"></p>
+                    <div class="archive-lightbox-sources"></div>
+                    <a class="archive-lightbox-open btn text-btn" href="#" target="_blank" rel="noopener">Open original</a>
+                </div>
+            </div>
+            <button class="archive-lightbox-nav archive-lightbox-next" type="button" aria-label="Next image">›</button>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024–2026 Pcniado. Built with <span style="color: var(--accent);">♥</span> in Poland.</p>
+    </footer>
+
+    <script src="../script.js"></script>
+    <script src="archive/gallery-data.js"></script>
+    <script src="archive/gallery.js"></script>
+</body>
+
+</html>
