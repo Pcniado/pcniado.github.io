@@ -58,6 +58,10 @@ main {
 .section {
     padding: 6rem 0;
     border-bottom: 1px dashed var(--dim-color);
+    /* the linked-section flash measures itself against the element it marks, so
+       the element has to be its own containing block — otherwise the overlay
+       stretches to <main>, the nearest positioned ancestor */
+    position: relative;
 }
 
 .section:last-child {
@@ -245,6 +249,7 @@ footer {
     justify-content: center;
     align-items: center;
     text-align: center;
+    position: relative;
 }
 
 .hero-content {
